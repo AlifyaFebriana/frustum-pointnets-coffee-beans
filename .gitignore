@@ -1,0 +1,9 @@
+# ignore all .txt, .jpg, .bin files
+dataset/KITTI/object/training/calib/*.txt
+dataset/KITTI/object/training/image_2/*.jpg
+dataset/KITTI/object/training/label_2/*.txt
+dataset/KITTI/object/training/velodyne/*.bin
+
+dataset/KITTI/object/testing/calib/*.txt
+dataset/KITTI/object/testing/image_2/*.jpg
+dataset/KITTI/object/testing/velodyne/*.bin
