@@ -7,3 +7,5 @@ dataset/KITTI/object/training/velodyne/*.bin
 dataset/KITTI/object/testing/calib/*.txt
 dataset/KITTI/object/testing/image_2/*.jpg
 dataset/KITTI/object/testing/velodyne/*.bin
+
+kitti/labels_yolo/*.txt
