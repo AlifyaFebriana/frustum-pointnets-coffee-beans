@@ -31,9 +31,9 @@ class kitti_object(object):
         self.split_dir = os.path.join(root_dir, split)
 
         if split == 'training':
-            self.num_samples = 7481
+            self.num_samples = 2000
         elif split == 'testing':
-            self.num_samples = 7518
+            self.num_samples = 400
         else:
             print('Unknown split: %s' % (split))
             exit(-1)
@@ -48,7 +48,7 @@ class kitti_object(object):
 
     def get_image(self, idx):
         assert(idx<self.num_samples) 
-        img_filename = os.path.join(self.image_dir, '%06d.png'%(idx))
+        img_filename = os.path.join(self.image_dir, '%06d.jpg'%(idx))
         return utils.load_image(img_filename)
 
     def get_lidar(self, idx): 

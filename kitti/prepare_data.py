@@ -145,7 +145,7 @@ def random_shift_box2d(box2d, shift_ratio=0.1):
     return np.array([cx2-w2/2.0, cy2-h2/2.0, cx2+w2/2.0, cy2+h2/2.0])
  
 def extract_frustum_data(idx_filename, split, output_filename, viz=False,
-                       perturb_box2d=False, augmentX=1, type_whitelist=['Car']):
+                       perturb_box2d=False, augmentX=1, type_whitelist=['defect', 'longberry', 'peaberry', 'premium']):
     ''' Extract point clouds and corresponding annotations in frustums
         defined generated from 2D bounding boxes
         Lidar points and 3d boxes are in *rect camera* coord system
@@ -164,7 +164,7 @@ def extract_frustum_data(idx_filename, split, output_filename, viz=False,
         None (will write a .pickle file to the disk)
     '''
     dataset = kitti_object(os.path.join(ROOT_DIR,'dataset/KITTI/object'), split)
-    data_idx_list = [int(line.rstrip()) for line in open(idx_filename)]
+    data_idx_list = [(line.rstrip()) for line in open(idx_filename)]
 
     id_list = [] # int number
     box2d_list = [] # [xmin,ymin,xmax,ymax]
@@ -302,14 +302,14 @@ def get_box3d_dim_statistics(idx_filename):
 
 def read_det_file(det_filename):
     ''' Parse lines in 2D detection output files '''
-    det_id2str = {1:'Pedestrian', 2:'Car', 3:'Cyclist'}
+    det_id2str = {0: 'defect', 1:'longberry', 2:'peaberry', 3:'premium'}
     id_list = []
     type_list = []
     prob_list = []
     box2d_list = []
     for line in open(det_filename, 'r'):
         t = line.rstrip().split(" ")
-        id_list.append(int(os.path.basename(t[0]).rstrip('.png')))
+        id_list.append((os.path.basename(t[0]).rstrip('.jpg')))
         type_list.append(det_id2str[int(t[1])])
         prob_list.append(float(t[2]))
         box2d_list.append(np.array([float(t[i]) for i in range(3,7)]))
@@ -318,7 +318,7 @@ def read_det_file(det_filename):
  
 def extract_frustum_data_rgb_detection(det_filename, split, output_filename,
                                        viz=False,
-                                       type_whitelist=['Car'],
+                                       type_whitelist=['defect', 'longberry', 'peaberry', 'premium'],
                                        img_height_threshold=25,
                                        lidar_point_threshold=5):
     ''' Extract point clouds in frustums extruded from 2D detection boxes.
@@ -327,7 +327,7 @@ def extract_frustum_data_rgb_detection(det_filename, split, output_filename,
         
     Input:
         det_filename: string, each line is
-            img_path typeid confidence xmin ymin xmax ymax
+        img_path typeid confidence xmin ymin xmax ymax
         split: string, either trianing or testing
         output_filename: string, the name for output .pickle file
         type_whitelist: a list of strings, object types we are interested in.
@@ -478,7 +478,7 @@ if __name__=='__main__':
         type_whitelist = ['Car']
         output_prefix = 'frustum_caronly_'
     else:
-        type_whitelist = ['Car', 'Pedestrian', 'Cyclist']
+        type_whitelist = ['defect', 'longberry', 'peaberry', 'premium']
         output_prefix = 'frustum_carpedcyc_'
 
     if args.gen_train:
